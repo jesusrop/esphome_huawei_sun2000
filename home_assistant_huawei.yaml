@@ -1,0 +1,142 @@
+## Sensors adicionals per l'inversor
+
+template:
+  - sensor:
+    # The inverter provides timestamps in localtime, but HA expects UTC. This tries to convert the timestamps to UTC. It fails for a few hours after midnight
+    - name: "Huawei inverter shutdown time"
+      device_class: timestamp
+      state: >
+        {% set time_delta = (utcnow().hour | int - now().hour | int ) *3600 %}
+        {{ as_datetime((states("sensor.huawei_inverter_shutdown_time_timestamp") | int + time_delta) | timestamp_local) }}
+      availability: >
+        {% set time_delta = (utcnow().hour | int - now().hour | int ) *3600 %}
+        {% set current_datetime = as_datetime((states("sensor.huawei_inverter_shutdown_time_timestamp") | int + time_delta) | timestamp_local) %}
+        {{ current_datetime <= now() }}
+    - name: "Huawei inverter startup time"
+      device_class: timestamp
+      state: >
+        {% set time_delta = (utcnow().hour | int - now().hour | int ) *3600 %}
+        {{ as_datetime((states("sensor.huawei_inverter_startup_time_timestamp") | int + time_delta) | timestamp_local) }}
+      availability: >
+        {% set time_delta = (utcnow().hour | int - now().hour | int ) *3600 %}
+        {% set current_datetime = as_datetime((states("sensor.huawei_inverter_startup_time_timestamp") | int + time_delta) | timestamp_local) %}
+        {{ current_datetime <= now() }}
+
+
+binary_sensor:
+  # Group all alarms toghether
+  - name: "Huawei inverter alarms"
+    platform: group
+    entities:
+      - binary_sensor.huawei_inverter_alarm_high_string_input_voltage
+      - binary_sensor.huawei_inverter_alarm_dc_arc_fault
+      - binary_sensor.huawei_inverter_alarm_string_reverse_connection
+      - binary_sensor.huawei_inverter_alarm_string_current_backfeed
+      - binary_sensor.huawei_inverter_alarm_abnormal_string_power
+      - binary_sensor.huawei_inverter_alarm_afci_self_check_fail
+      - binary_sensor.huawei_inverter_alarm_phase_wire_short_circuited_to_pe
+      - binary_sensor.huawei_inverter_alarm_grid_loss
+      - binary_sensor.huawei_inverter_alarm_grid_undervoltage
+      - binary_sensor.huawei_inverter_alarm_grid_overvoltage
+      - binary_sensor.huawei_inverter_alarm_grid_volt_imbalance
+      - binary_sensor.huawei_inverter_alarm_grid_overfrequency
+      - binary_sensor.huawei_inverter_alarm_grid_underfrequency
+      - binary_sensor.huawei_inverter_alarm_unstable_grid_frequency
+      - binary_sensor.huawei_inverter_alarm_output_overcurrent
+      - binary_sensor.huawei_inverter_alarm_output_dc_component_overhigh
+      - binary_sensor.huawei_inverter_alarm_abnormal_residual_current
+      - binary_sensor.huawei_inverter_alarm_abnormal_grounding
+      - binary_sensor.huawei_inverter_alarm_low_insulation_resistance
+      - binary_sensor.huawei_inverter_alarm_overtemperature
+      - binary_sensor.huawei_inverter_alarm_device_fault
+      - binary_sensor.huawei_inverter_alarm_upgrade_failed_or_version_mismatch
+      - binary_sensor.huawei_inverter_alarm_license_expired
+      - binary_sensor.huawei_inverter_alarm_faulty_monitoring_unit
+      - binary_sensor.huawei_inverter_alarm_faulty_power_collector
+      - binary_sensor.huawei_inverter_alarm_battery_abnormal
+      - binary_sensor.huawei_inverter_alarm_active_islanding
+      - binary_sensor.huawei_inverter_alarm_passive_islanding
+      - binary_sensor.huawei_inverter_alarm_transient_ac_overvoltage
+      - binary_sensor.huawei_inverter_alarm_peripheral_port_short_circuit
+      - binary_sensor.huawei_inverter_alarm_churn_output_overload
+      - binary_sensor.huawei_inverter_alarm_abnormal_pv_module_configuration
+      - binary_sensor.huawei_inverter_alarm_optimizer_fault
+      - binary_sensor.huawei_inverter_alarm_built_in_pid_operation_abnormal
+      - binary_sensor.huawei_inverter_alarm_high_input_string_voltage_to_ground
+      - binary_sensor.huawei_inverter_alarm_external_fan_abnormal
+      - binary_sensor.huawei_inverter_alarm_battery_reverse_connection
+      - binary_sensor.huawei_inverter_alarm_on_grid_off_grid_controller_abnormal
+      - binary_sensor.huawei_inverter_alarm_pv_string_loss
+      - binary_sensor.huawei_inverter_alarm_internal_fan_abnormal
+      - binary_sensor.huawei_inverter_alarm_dc_protection_unit_abnormal
+      - binary_sensor.huawei_inverter_alarm_el_unit_abnormal
+      - binary_sensor.huawei_inverter_alarm_active_adjustment_instruction_abnormal
+      - binary_sensor.huawei_inverter_alarm_reactive_adjustment_instruction_abnormal
+      - binary_sensor.huawei_inverter_alarm_ct_wiring_abnormal
+      - binary_sensor.huawei_inverter_alarm_dc_arc_fault_admc_alarm_to_be_clear_manually
+  # Group all states toghether
+  - name: "Huawei inverter states"
+    platform: group
+    entities:
+      - binary_sensor.huawei_inverter_state_standby
+      - binary_sensor.huawei_inverter_state_grid_connected
+      - binary_sensor.huawei_inverter_state_grid_connected_normally
+      - binary_sensor.huawei_inverter_state_grid_connection_with_derating_due_to_power_rationing
+      - binary_sensor.huawei_inverter_state_grid_connection_with_derating_due_to_internal_causes_of_the_solar_inverter
+      - binary_sensor.huawei_inverter_state_normal_stop
+      - binary_sensor.huawei_inverter_state_stop_due_to_faults
+      - binary_sensor.huawei_inverter_state_stop_due_to_power_rationing
+      - binary_sensor.huawei_inverter_state_shutdown
+      - binary_sensor.huawei_inverter_state_spot_check
+      - binary_sensor.huawei_inverter_state_unlocked
+      - binary_sensor.huawei_inverter_state_pv_connected
+      - binary_sensor.huawei_inverter_state_dsp_data_collection
+      - binary_sensor.huawei_inverter_state_off_grid
+      - binary_sensor.huawei_inverter_state_off_grid_switch_enable
+
+  # Calculate the ratio between strings. In my case, one string has 5 solar cells
+  # and the other has 4, so string 1 produces 1.25 times the power of string 2.
+  # If you have the same ammount of cells on each string, set upper to 1.25 and lower to 0.75
+  - name: "Huawei inverter string ratio ok"
+    platform: threshold
+    entity_id: sensor.huawei_inverter_string_ratio
+    upper: 1.5
+    lower: 1.0
+
+
+automation:
+  # Notify when something goes wrong in your inverter
+  - alias: "Notificar quan hi ha una alarma a l'inversor"
+    id: notificar_alarma_inversor
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.huawei_inverter_alarms
+        to: "on"
+      - platform: numeric_state
+        entity_id: sensor.huawei_inverter_fault_code
+        above: 0
+      - platform: state
+        entity_id: binary_sensor.huawei_meter_status
+        to: "off"
+      - platform: state
+        entity_id: binary_sensor.huawei_inverter_string_ratio_ok
+        from: "on"
+        to: "off"
+        for:
+          minutes: 30
+    action:
+      - service: notify.mobile_app_***
+        data:
+          title: "Alarma a l'inversor"
+          message: >
+            String ratio: {{ states("sensor.huawei_inverter_string_ratio") }}
+            Meter status: {{ states("binary_sensor.huawei_meter_status") }}
+            Inverter fault code: {{ states("sensor.huawei_inverter_fault_code") }}
+            {% for alarm in expand("binary_sensor.huawei_inverter_alarms") if is_state(alarm.entity_id, "on") %}
+            {{alarm.name}}
+            {%- if not loop.last %}, {% endif -%}
+            {% endfor %}
+          data:
+            # Realtive URL of your lovelace front panel
+            url: /lovelace/inverter
+            clickAction: /lovelace/inverter

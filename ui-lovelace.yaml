@@ -1,0 +1,157 @@
+title: Lovelace
+views:
+  - title: "Inversor"
+    path: inversor
+    icon: mdi:solar-power
+    cards:
+      - type: history-graph
+        title: "Potència"
+        hours_to_show: 24
+        refresh_interval: 60
+        entities:
+          - sensor.huawei_inverter_active_power
+          - sensor.huawei_meter_house_power
+      - type: entities
+        title: "Consum"
+        icon: mdi:transmission-tower
+        entities:
+          - sensor.huawei_inverter_active_power
+          - sensor.huawei_meter_active_power
+          - sensor.huawei_meter_house_power
+          - sensor.huawei_inverter_grid_current
+          - sensor.huawei_meter_grid_current
+          - sensor.huawei_meter_house_current
+          - sensor.huawei_inverter_grid_voltage
+          - sensor.huawei_meter_grid_voltage
+          - sensor.huawei_inverter_grid_frequency
+          - sensor.huawei_meter_grid_frequency
+
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: Producció
+            icon: mdi:solar-panel
+            entities:
+              - sensor.huawei_inverter_peak_power_today
+              - sensor.huawei_inverter_daily_energy
+              - sensor.huawei_meter_exported_energy
+              - sensor.huawei_meter_imported_energy
+              - sensor.huawei_inverter_accumulated_energy
+          - type: entities
+            title: String 1
+            icon: mdi:solar-panel
+            entities:
+              - sensor.huawei_inverter_pv1_current
+              - sensor.huawei_inverter_pv1_voltage
+              - sensor.huawei_inverter_pv1_power
+          - type: entities
+            title: String 2
+            icon: mdi:solar-panel
+            entities:
+              - sensor.huawei_inverter_pv2_current
+              - sensor.huawei_inverter_pv2_voltage
+              - sensor.huawei_inverter_pv2_power
+          - type: entities
+            title: Inverter
+            icon: mdi:solar-panel
+            entities:
+              - sensor.huawei_inverter_input_power
+              - sensor.huawei_inverter_efficiency
+              - sensor.huawei_inverter_string_ratio
+
+      - type: entities
+        title: Dades inversor
+        icon: mdi:ev-station
+        entities:
+          - sensor.huawei_inverter_model
+          - sensor.huawei_inverter_sn
+          - sensor.huawei_inverter_pn
+          - sensor.huawei_inverter_rated_power
+          - sensor.huawei_inverter_maximum_active_power
+          - sensor.huawei_inverter_internal_temperature
+          - sensor.huawei_inverter_insulation_resistance
+          - sensor.huawei_inverter_status
+          - binary_sensor.huawei_meter_status
+          - sensor.huawei_inverter_fault_code
+          - sensor.huawei_inverter_shutdown_time
+          - sensor.huawei_inverter_startup_time
+
+      - type: entity-filter
+        state_filter:
+            - "on"
+        card:
+          type: entities
+          title: "Estats inversor"
+          icon: mdi:ev-station
+        entities:
+          - binary_sensor.huawei_inverter_state_standby
+          - binary_sensor.huawei_inverter_state_grid_connected
+          - binary_sensor.huawei_inverter_state_grid_connected_normally
+          - binary_sensor.huawei_inverter_state_grid_connection_with_derating_due_to_power_rationing
+          - binary_sensor.huawei_inverter_state_grid_connection_with_derating_due_to_internal_causes_of_the_solar_inverter
+          - binary_sensor.huawei_inverter_state_normal_stop
+          - binary_sensor.huawei_inverter_state_stop_due_to_faults
+          - binary_sensor.huawei_inverter_state_stop_due_to_power_rationing
+          - binary_sensor.huawei_inverter_state_shutdown
+          - binary_sensor.huawei_inverter_state_spot_check
+          - binary_sensor.huawei_inverter_state_unlocked
+          - binary_sensor.huawei_inverter_state_pv_connected
+          - binary_sensor.huawei_inverter_state_dsp_data_collection
+          - binary_sensor.huawei_inverter_state_off_grid
+          - binary_sensor.huawei_inverter_state_off_grid_switch_enable
+
+      - type: entity-filter
+        entities:
+          - binary_sensor.huawei_inverter_alarms
+          - binary_sensor.huawei_inverter_alarm_high_string_input_voltage
+          - binary_sensor.huawei_inverter_alarm_dc_arc_fault
+          - binary_sensor.huawei_inverter_alarm_string_reverse_connection
+          - binary_sensor.huawei_inverter_alarm_string_current_backfeed
+          - binary_sensor.huawei_inverter_alarm_abnormal_string_power
+          - binary_sensor.huawei_inverter_alarm_afci_self_check_fail
+          - binary_sensor.huawei_inverter_alarm_phase_wire_short_circuited_to_pe
+          - binary_sensor.huawei_inverter_alarm_grid_loss
+          - binary_sensor.huawei_inverter_alarm_grid_undervoltage
+          - binary_sensor.huawei_inverter_alarm_grid_overvoltage
+          - binary_sensor.huawei_inverter_alarm_grid_volt_imbalance
+          - binary_sensor.huawei_inverter_alarm_grid_overfrequency
+          - binary_sensor.huawei_inverter_alarm_grid_underfrequency
+          - binary_sensor.huawei_inverter_alarm_unstable_grid_frequency
+          - binary_sensor.huawei_inverter_alarm_output_overcurrent
+          - binary_sensor.huawei_inverter_alarm_output_dc_component_overhigh
+          - binary_sensor.huawei_inverter_alarm_abnormal_residual_current
+          - binary_sensor.huawei_inverter_alarm_abnormal_grounding
+          - binary_sensor.huawei_inverter_alarm_low_insulation_resistance
+          - binary_sensor.huawei_inverter_alarm_overtemperature
+          - binary_sensor.huawei_inverter_alarm_device_fault
+          - binary_sensor.huawei_inverter_alarm_upgrade_failed_or_version_mismatch
+          - binary_sensor.huawei_inverter_alarm_license_expired
+          - binary_sensor.huawei_inverter_alarm_faulty_monitoring_unit
+          - binary_sensor.huawei_inverter_alarm_faulty_power_collector
+          - binary_sensor.huawei_inverter_alarm_battery_abnormal
+          - binary_sensor.huawei_inverter_alarm_active_islanding
+          - binary_sensor.huawei_inverter_alarm_passive_islanding
+          - binary_sensor.huawei_inverter_alarm_transient_ac_overvoltage
+          - binary_sensor.huawei_inverter_alarm_peripheral_port_short_circuit
+          - binary_sensor.huawei_inverter_alarm_churn_output_overload
+          - binary_sensor.huawei_inverter_alarm_abnormal_pv_module_configuration
+          - binary_sensor.huawei_inverter_alarm_optimizer_fault
+          - binary_sensor.huawei_inverter_alarm_built_in_pid_operation_abnormal
+          - binary_sensor.huawei_inverter_alarm_high_input_string_voltage_to_ground
+          - binary_sensor.huawei_inverter_alarm_external_fan_abnormal
+          - binary_sensor.huawei_inverter_alarm_battery_reverse_connection
+          - binary_sensor.huawei_inverter_alarm_on_grid_off_grid_controller_abnormal
+          - binary_sensor.huawei_inverter_alarm_pv_string_loss
+          - binary_sensor.huawei_inverter_alarm_internal_fan_abnormal
+          - binary_sensor.huawei_inverter_alarm_dc_protection_unit_abnormal
+          - binary_sensor.huawei_inverter_alarm_el_unit_abnormal
+          - binary_sensor.huawei_inverter_alarm_active_adjustment_instruction_abnormal
+          - binary_sensor.huawei_inverter_alarm_reactive_adjustment_instruction_abnormal
+          - binary_sensor.huawei_inverter_alarm_ct_wiring_abnormal
+          - binary_sensor.huawei_inverter_alarm_dc_arc_fault_admc_alarm_to_be_clear_manually
+        state_filter:
+            - "on"
+        card:
+          type: entities
+          title: "Alarmes inversor"
+          icon: mdi:ev-station
