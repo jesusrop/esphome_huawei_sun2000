@@ -18,11 +18,11 @@ Hardware used:
 Check the manual of your inverter to locate the com port. The pin numbers are visible in the port itself.
 
 # Setup
-1. Adapt the [esphome_huawei.yaml]() to your liking and flash it using your method of choice
+1. Adapt the [esphome_huawei.yaml](esphome_huawei.yaml) to your liking and flash it using your method of choice
 2. Connect wires as indicated in the Wiring section
 3. Connect the ESPhome device to Home Assistant as usual
-4. Add the [home_assistant_huawei.yaml]() configuration to your Home Assistant configuration. I have it setup as a package, but you might need to split the configuration according to your setup
-5. Add the new entitites to lovelace. In [ui-lovelace.yaml]() you will find a basic example. Tweak to your liking
+4. Add the [home_assistant_huawei.yaml](home_assistant_huawei.yaml) configuration to your Home Assistant configuration. I have it setup as a package, but you might need to split the configuration according to your setup
+5. Add the new entitites to lovelace. In [ui-lovelace.yaml](ui-lovelace.yaml) you will find a basic example. Tweak to your liking
 
 # Tweaking read timings
 There are two timings that can be setup in the ESPhome modbus_controller configuration:
