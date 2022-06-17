@@ -2,7 +2,8 @@
 Read your Huawei Sun 2000 inverter data from Home assistant using Modbus RTU from an ESP32
 
 ![imagen](https://user-images.githubusercontent.com/18996263/174351094-61e8f091-b6b4-4505-a310-227d45749086.png)
-![imagen](https://user-images.githubusercontent.com/18996263/174140692-747c9744-731f-406d-bb1b-857c47be10b2.png)
+![imagen](https://user-images.githubusercontent.com/18996263/174357533-e71cbe01-7185-43bb-b296-1513898f27c9.png)
+
 
 
 I have a Huawei SUN2000 solar inverter at home. After reading many complains about the instability of our inverter when connected through Modbus TCP I decided that I would go the RTU way instead. This setup has been rock solid for me for as long as I had it installed and it got to a point where I think is ready to be released to the world.
