@@ -1,9 +1,22 @@
 # esphome_huawei_sun2000
 Read your Huawei Sun 2000 inverter data from Home assistant using Modbus RTU from an ESP32
 
+![imagen](https://user-images.githubusercontent.com/18996263/174351094-61e8f091-b6b4-4505-a310-227d45749086.png)
 ![imagen](https://user-images.githubusercontent.com/18996263/174140692-747c9744-731f-406d-bb1b-857c47be10b2.png)
 
-Hardware used:
+
+I have a Huawei SUN2000 solar inverter at home. After reading many complains about the instability of our inverter when connected through Modbus TCP I decided that I would go the RTU way instead. This setup has been rock solid for me for as long as I had it installed and it got to a point where I think is ready to be released to the world.
+
+The ESPhome code contains some additional attributes that are helpful for other stuff:
+
+* Calculating electricity cost and compensation for spanish billing system
+* Translate fault and state codes to the corresponding strings
+* Getting the home power and current consumptions
+* Add a nice [tesla-style-solar-power-card](https://github.com/reptilex/tesla-style-solar-power-card) to your front-end
+* Doing some basic monitoring of the solar yield of each of your strings (string ratio)
+* Get notified when something goes wrong in your inverter
+
+# Hardware used:
 * ESP32 DEVKIT V1. Any ESPhome capable board should work, but I have only tested with this board. If using a ESP8266, read the warning on the [Modbus controller ESPhome documentation](https://esphome.io/components/modbus_controller.html)
 * RS485 to TTL module
 * Huawei SUN2000 solar inverter with the smart energy monitor
@@ -36,3 +49,8 @@ This setup did not break anything in my installation. However, I take no respons
 Take care when dealing with the inverter and mains voltage. Disconnect the inverter from all power sources as indicated in the manual. I also take no responsabilities if you get hurt installing this.
 
 To make it clear... I take no responsability to whatever happens if you use this instructions or the code contained.
+
+# Aknolwdgements
+I could not have succeded without the instructions provided in these 2 youtube tutorials:
+* https://www.youtube.com/watch?v=aIEt-IZLJN4
+* https://www.youtube.com/watch?v=hMfdGItvgY4
